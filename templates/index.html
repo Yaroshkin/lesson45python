@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% include 'header.html' %}
+    <main>
+<h1 class="text-center">{{ head1 }}</h1>
+{#            hello = "Добрая ночь"#}
+{#            if 5 <= time.hour < 17:#}
+{#            hello = "Добрый день"#}
+        {% set hello = "Добрая ночь" %}
+        {% if 5 <= time.hour < 17 %}
+        {% set hello = "Добрый день" %}
+        {% elif True %}
+            <p>Lorem</p>
+        {% endif %}
+        <ul>
+            <a href="home2" onclick="">Температура воздуха</a>
+
+{#            <a href="home2" onclick="">Температура воздуха</a>#}
+{#            <a href="home2" onclick="">Температура воздуха</a>#}
+{#            <a href="home2" onclick="">Температура воздуха</a>#}
+        </ul>
+
+        <h2 class="text-center">{{ hello }}</h2>
+        <div class="qwe" id=""></div>
+</main>
+    {% include 'footer.html' %}
+{% endblock %}
