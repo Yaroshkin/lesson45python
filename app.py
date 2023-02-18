@@ -24,12 +24,13 @@ def home():
 
 @app.route('/home2')
 def home_alone_2():
+    head1 = 'HEll'
     time = datetime.datetime.now()
     title = 'Temperature'
     response = requests.get("http://localhost:8000/cgi-bin/rest.py")
     json_data = json.loads(response.text)
     temp = json_data.get('temperature')
-    return render_template('temp.html',title=title,temp=temp,time=time)
+    return render_template('temp.html',title=title,temp=temp,time=time,head1=head1)
 
 # @app.route('/home2')
 # def api():
