@@ -7,3 +7,10 @@
 header {
     color: #6a1a21;
 }
+
+footer{
+    color: blue;
+    box-sizing: border-box;
+    font-family: "Candara Light";
+    font-size: x-small;
+}
