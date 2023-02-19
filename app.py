@@ -1,9 +1,11 @@
+import random
+
 from flask import Flask
 from flask import url_for, render_template, send_file, redirect
 import datetime
 import time as t
 # import jsonify
-import json,requests
+import json, requests
 
 app = Flask(__name__)
 
@@ -29,18 +31,37 @@ def home_alone_2():
     head1 = 'HEll'
     time = datetime.datetime.now()
     title = 'Temperature'
-    response = requests.get("http://localhost:8000/cgi-bin/rest.py")
+    response = requests.get("http://localhost:5000/home2")
     json_data = json.loads(response.text)
     temp = json_data.get('temperature')
     return render_template('temp.html',title=title,temp=temp,time=time,head1=head1,footer=foot)
 
-# @app.route('/home2')
-# def api():
-#     dict1 = {
-#         "key1":"value1",
-#         "key2": "value2",
-#     }
-#     return json.dumps(dict1)
+@app.route('/home2')
+def api():
+    dict1 = {
+        "key1":"value1",
+        "key2": "value2",
+    }
+    obj = None
+    with open('example.json', 'r') as file:
+        obj = json.load(file)
+
+    obj['temperature'] = random.randint(-15, 25)
+    obj['humidity'] = random.randint(0, 100)
+    obj['meter']['electricity']['reading'] = round(random.uniform(12345.9, 12347.9), 3)
+    obj['meter']['electricity']['consumption'] = round(random.uniform(0.1, 2.0), 1)
+    obj['meter']['gas']['reading'] = round(random.uniform(2367.9, 2369.9), 3)
+    obj['meter']['gas']['consumption'] = round(random.random(), 1)
+    obj['meter']['water']['reading'] = round(random.uniform(1212.9, 1214.9), 3)
+    obj['meter']['water']['consumption'] = round(random.uniform(0.1, 1.0), 1)
+    obj['boiler']['isRun'] = random.choice([True, False])
+    obj['boiler']['temperature'] = random.randint(60, 65)
+    obj['boiler']['pressure'] = round(random.uniform(1.0, 2.0), 1)
+
+    return json.dumps(obj)
+    # return json.dumps(dict1)
+
+
 
 
 if __name__ == '__main__':
