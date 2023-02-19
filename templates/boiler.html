@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+    {% include 'header.html' %}
+{% block body %}
+
+<h1 class="text-center">Состояние {{ boil }}  </h1>
+<h1 class="text-center">Температура {{ boil1 }} град </h1>
+<h1 class="text-center">Потребление {{ boil2 }} кВт </h1>
+    {% include 'footer.html' %}
+{% endblock %}

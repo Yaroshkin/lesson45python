@@ -19,18 +19,17 @@ def hello_world():  # put application's code here
     global foot
     time = datetime.datetime.now()
     arr = ['Temperature','Water',8,3,7,6,8,1]
-    return render_template("index.html", title=time, head1="head", time=time, arr=arr, footer=foot)
+    return render_template("index.html", title=time, time=time, arr=arr, footer=foot)
 
 @app.route('/hum')
 def home():
     global foot
-    head1 = 'HEll'
     time = datetime.datetime.now()
     title = 'Humidity'
     response = requests.get("http://localhost:5000/home2")
     json_data = json.loads(response.text)
     hum = json_data.get('humidity')
-    return render_template('hum.html', title=title, hum=hum, time=time, head1=head1, footer=foot)
+    return render_template('hum.html', title=title, hum=hum, time=time, footer=foot)
 
 @app.route('/temperature')
 def home_alone_2():
@@ -57,7 +56,8 @@ def ele():
     response = requests.get("http://localhost:5000/home2")
     json_data = json.loads(response.text)
     met = json_data['meter']['electricity']['reading']
-    return render_template('ele.html',ele=met)
+    met1 = json_data['meter']['electricity']['consumption']
+    return render_template('ele.html',ele=met,ele1=met1,title=title,footer=foot)
 
 @app.route('/meter/gaz')
 def gaz():
@@ -68,10 +68,30 @@ def gaz():
     json_data = json.loads(response.text)
     gaz = json_data['meter']['gas']['reading']
     gaz_n = json_data['meter']['gas']['consumption']
-    return render_template('gaz.html',gaz=gaz,gaz1=gaz_n)
+    return render_template('gaz.html',gaz=gaz,gaz1=gaz_n,title=title,footer=foot)
 
+@app.route('/meter/water')
+def wat():
+    global foot
+    time = datetime.datetime.now()
+    title = 'Water'
+    response = requests.get("http://localhost:5000/home2")
+    json_data = json.loads(response.text)
+    wat = json_data['meter']['water']['reading']
+    wat_n = json_data['meter']['water']['consumption']
+    return render_template('water.html',water=wat,water1=wat_n,title=title,footer=foot)
 
-
+@app.route('/boiler')
+def boil():
+    global foot
+    time = datetime.datetime.now()
+    title = 'Boiler'
+    response = requests.get("http://localhost:5000/home2")
+    json_data = json.loads(response.text)
+    boil = json_data['boiler']['isRun']
+    boil_tem = json_data['boiler']['temperature']
+    boil_pre = json_data['boiler']['pressure']
+    return render_template('boiler.html',boil=boil,boil1=boil_tem,boil2=boil_pre,title=title,footer=foot)
 
 @app.route('/home2')
 def api():
