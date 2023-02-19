@@ -21,9 +21,16 @@ def hello_world():  # put application's code here
     arr = ['Temperature','Water',8,3,7,6,8,1]
     return render_template("index.html", title=time, head1="head", time=time, arr=arr, footer=foot)
 
-@app.route('/home')
+@app.route('/hum')
 def home():
-    return 'Home!'
+    global foot
+    head1 = 'HEll'
+    time = datetime.datetime.now()
+    title = 'Humidity'
+    response = requests.get("http://localhost:5000/home2")
+    json_data = json.loads(response.text)
+    hum = json_data.get('humidity')
+    return render_template('hum.html', title=title, hum=hum, time=time, head1=head1, footer=foot)
 
 @app.route('/temperature')
 def home_alone_2():
@@ -36,14 +43,40 @@ def home_alone_2():
     temp = json_data.get('temperature')
     return render_template('temp.html',title=title,temp=temp,time=time,head1=head1, footer=foot)
 
+@app.route('/meter')
+def meter():
+    global foot
+    title = 'Meter'
+    return render_template('meter.html',title=title)
+
+@app.route('/meter/ele')
+def ele():
+    global foot
+    time = datetime.datetime.now()
+    title = 'Electricity'
+    response = requests.get("http://localhost:5000/home2")
+    json_data = json.loads(response.text)
+    met = json_data['meter']['electricity']['reading']
+    return render_template('ele.html',ele=met)
+
+@app.route('/meter/gaz')
+def gaz():
+    global foot
+    time = datetime.datetime.now()
+    title = 'Gaz'
+    response = requests.get("http://localhost:5000/home2")
+    json_data = json.loads(response.text)
+    gaz = json_data['meter']['gas']['reading']
+    gaz_n = json_data['meter']['gas']['consumption']
+    return render_template('gaz.html',gaz=gaz,gaz1=gaz_n)
+
+
+
+
 @app.route('/home2')
 def api():
-    dict1 = {
-        "key1":"value1",
-        "key2": "value2",
-    }
     obj = None
-    with open('example.json', 'r') as file:
+    with open('static/example.json', 'r') as file:
         obj = json.load(file)
 
     obj['temperature'] = random.randint(-15, 25)
